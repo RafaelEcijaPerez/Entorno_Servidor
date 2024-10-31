@@ -1,7 +1,7 @@
 <?php 
 $itmes ='Chocolate';
-$stock =5;
-$wanted =3;
+$stock =3;
+$wanted =5;
 $deliver =true;
 $can_buy = (($wanted <= $stock) &&($deliver == true));
 ?>
