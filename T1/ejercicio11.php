@@ -2,7 +2,7 @@
 $itmes ='Chocolate';
 $stock =5;
 $wanted =3;
-$deliver =true
+$deliver =true;
 $can_buy = (($wanted <= $stock) &&($deliver == true));
 ?>
 <!DOCTYPE html>
