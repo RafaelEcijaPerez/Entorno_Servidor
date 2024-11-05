@@ -25,7 +25,7 @@ $menu = [
 
 // Definición de variables adicionales para el saludo y nombre del cliente
 $prefix = "Bienvenido";
-$name = "Carlos"; // Cambia "Carlos" por el nombre del cliente
+$name = "Carlos"; 
 $greetingMessage = "$prefix, $name. Gracias por visitar nuestro restaurante.";
 ?>
 
