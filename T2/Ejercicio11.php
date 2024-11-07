@@ -3,6 +3,8 @@ $products = [
     'Toffee' => 2.99, 
     'Mints' => 1.99, 
     'Fudge' => 3.49,
+    'Chocolate' =>2.45,
+    'Gum' => 0.50,
     ]; 
 ?>
 <!DOCTYPE html> 
@@ -21,8 +23,8 @@ $products = [
                 <?php 
                 foreach ($products as $item => $price) { ?> 
                     <tr> 
-                        <td><?= $item ?></td> 
-                        <td>$<?= $price ?></td> 
+                        <td> <?= $item ?></td> 
+                        <td> $<?= $price ?></td> 
                     </tr>
                 <?php } ?>
             </table>
