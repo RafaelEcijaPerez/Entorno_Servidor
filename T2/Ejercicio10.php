@@ -10,7 +10,7 @@
             <h1>The Candy Store</h1> 
             <h2>Prices for Large Orders</h2> 
             <p> 
-                <?php for ($i= 10; $i <= 100; $i = $i+ 10) { 
+                <?php for ($i= 10; $i <= 200; $i = $i+ 10) { 
                     echo $i; 
                     echo ' packs cost $'; 
                     echo $price * $i; 
