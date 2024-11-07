@@ -1,10 +1,10 @@
 <?php 
-$day ='Tuesday';
+$day ='Wednesday';
 $offer =match($day){
     'Monday' =>'20% off chocolates',
     'Tuesday' =>'5% off chocolates',
     'Saturday','Sunday' => '20% off mints',
-    default => '10% off your entire order',
+    
 };
 ?>
 <!DOCTYPE html>
