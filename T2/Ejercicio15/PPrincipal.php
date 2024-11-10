@@ -30,12 +30,10 @@ include 'header.php';
             <h3>Tabla de Descuentos en Cuotas</h3>
             <?php include 'descuentos.php'; ?>
         </section>
+        <?php
+        // Incluimos el archivo de pie de página
+        include 'footer.php';
+        ?>
     </main>
-
-    <?php
-    // Incluimos el archivo de pie de página
-    include 'footer.php';
-    ?>
-
 </body>
 </html>
