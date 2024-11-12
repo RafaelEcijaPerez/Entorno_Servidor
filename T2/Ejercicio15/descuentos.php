@@ -27,4 +27,5 @@ for ($meses = 1; $meses < 13; $meses++) {
 }
 
 echo "</table>";
-?>
+
+?>;
