@@ -1,6 +1,6 @@
 <?php
 // Definimos la cuota mensual base
-$cuotaMensual = 50; 
+$cuotaMensual = 30; 
 
 // Descuentos basados en el número de meses
 echo "<table border='1'>
@@ -10,7 +10,7 @@ echo "<table border='1'>
             <th>Precio Final</th>
         </tr>";
 
-for ($meses = 1; $meses <= 13; $meses++) {
+for ($meses = 1; $meses < 13; $meses++) {
     // Calculamos el descuento
     $descuento = ($meses >= 6) ? 0.2 : (($meses >= 3) ? 0.1 : 0); // Operador ternario
     $precioFinal = $cuotaMensual * $meses * (1 - $descuento);
