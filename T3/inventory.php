@@ -75,7 +75,7 @@ function calculate_tax(float $inventory_value, float $tax_rate): float {
                 $total_inventory_value += $inventory_value;
             ?>
                 <tr>
-                    <td><?= $book['Titulo'] ?></td> <!-- Eliminado htmlspecialchars -->
+                    <td><?= $book['Titulo'] ?></td>
                     <td><?= number_format($book['Precio'], 2) ?>€</td>
                     <td><?= $book['stock'] ?></td>
                     <td><?= number_format($inventory_value, 2) ?>€</td>
