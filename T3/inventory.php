@@ -2,25 +2,25 @@
 declare(strict_types=1);
 
 // Configuración de datos de inventario
-$books = [
+$Libros = [
     [
-        'title' => 'El Quijote',
-        'price' => 15.50,
+        'Titulo' => 'El Quijote',
+        'Precio' => 15.50,
         'stock' => 30
     ],
     [
-        'title' => 'Cien Años de Soledad',
-        'price' => 12.99,
+        'Titulo' => 'Cien Años de Soledad',
+        'Precio' => 12.99,
         'stock' => 20
     ],
     [
-        'title' => '1984',
-        'price' => 10.00,
+        'Titulo' => '1984',
+        'Precio' => 10.00,
         'stock' => 50
     ],
     [
-        'title' => 'La Sombra del Viento',
-        'price' => 18.75,
+        'Titulo' => 'La Sombra del Viento',
+        'Precio' => 18.75,
         'stock' => 15
     ]
 ];
@@ -29,18 +29,19 @@ $books = [
 $tax_rate = 12; // Representa el 12%
 
 // Funciones
-function get_total_stock(array $books): int {
+// Calcula el total de stock de todos los libros
+function get_total_stock(array $Libros): int {
     $total_stock = 0;
-    foreach ($books as $book) {
+    foreach ($Libros as $book) {
         $total_stock += $book['stock'];
     }
     return $total_stock;
 }
-
-function get_inventory_value(float $price, int $stock): float {
-    return $price * $stock;
+// Calcula el valor total del inventario
+function get_inventory_value(float $Precio, int $stock): float {
+    return $Precio * $stock;
 }
-
+// Calcula el valor total de impuestos
 function calculate_tax(float $inventory_value, float $tax_rate): float {
     return $inventory_value * ($tax_rate / 100);
 }
@@ -48,13 +49,13 @@ function calculate_tax(float $inventory_value, float $tax_rate): float {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Inventory Management - Bookstore</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <Titulo>Inventario de libros</Titulo>
+    <link rel="stylesheet" href="css/libros.css">
 </head>
 <body>
-    <h1>Bookstore Inventory Management</h1>
+    <h1>Inventario de libros</h1>
 
-    <table border="1" cellpadding="10">
+    <table border="1">
         <thead>
             <tr>
                 <th>Tittulo</th>
@@ -67,14 +68,15 @@ function calculate_tax(float $inventory_value, float $tax_rate): float {
         <tbody>
             <?php 
             $total_inventory_value = 0;
-            foreach ($books as $book): 
-                $inventory_value = get_inventory_value($book['price'], $book['stock']);
+
+            foreach ($Libros as $book): 
+                $inventory_value = get_inventory_value($book['Precio'], $book['stock']);
                 $tax_amount = calculate_tax($inventory_value, $tax_rate);
                 $total_inventory_value += $inventory_value;
             ?>
                 <tr>
-                    <td><?= $book['title'] ?></td> <!-- Eliminado htmlspecialchars -->
-                    <td><?= number_format($book['price'], 2) ?>€</td>
+                    <td><?= $book['Titulo'] ?></td> <!-- Eliminado htmlspecialchars -->
+                    <td><?= number_format($book['Precio'], 2) ?>€</td>
                     <td><?= $book['stock'] ?></td>
                     <td><?= number_format($inventory_value, 2) ?>€</td>
                     <td><?= number_format($tax_amount, 2) ?>€</td>
@@ -84,7 +86,7 @@ function calculate_tax(float $inventory_value, float $tax_rate): float {
     </table>
 
     <h2>Informacion</h2>
-    <p>Total libros en Stock: <?= get_total_stock($books) ?></p>
+    <p>Total libros en Stock: <?= get_total_stock($Libros) ?></p>
     <p>Total valor del  inventario: <?= number_format($total_inventory_value, 2) ?>€</p>
     <p>Total tasa: <?= number_format(calculate_tax($total_inventory_value, $tax_rate), 2) ?>€</p>
 </body>
