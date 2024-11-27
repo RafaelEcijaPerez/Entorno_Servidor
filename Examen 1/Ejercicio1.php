@@ -1,13 +1,13 @@
 <?php 
 //Definicion para los alumnos
-$Alumnos =[
+$Alumnos =[ 
     ['nombre'=>'Alex García',
     'Fecha de Nacimiento'=>'14-13-2115',
     'Lugar de Residencia' =>'Madrid',
     'Telefono'=>'698997763',
     'Correo Electronico'=>'alex.garcia@example.com',
     'Estado de Repetidor'=>'No',
-],
+    ],
     ['nombre'=>'Maria López',
     'Fecha de Nacimiento'=>'21-15-2115',
     'Lugar de Residencia' =>' Barcelona',
@@ -173,9 +173,6 @@ $Tecnologia=[
 </head>
 <body>
     <h1>Voletin de Alumnos</h1>
-    
-    <hr>
-    <h1>Voletin de Alumnos</h1>
     <hr>
     <h2>Estudiante :<?= $Alumnos[0]['nombre'] ?></h2>
     <h3>Datos Personales</h3>
@@ -213,7 +210,8 @@ $Tecnologia=[
     </p>
     <p style="color: green;">Aprobado</p>
     <br>
-
+    
+    <hr>
     <h2>Estudiante :<?= $Alumnos[1]['nombre'] ?></h2>
     <h3>Datos Personales</h3>
     <ul>
@@ -348,7 +346,5 @@ $Tecnologia=[
     </p>
     <p style="color: red;">Suspenso</p>
     <br>
-    
-
 </body>
 </html>
