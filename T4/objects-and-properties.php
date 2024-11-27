@@ -16,10 +16,13 @@ class Account
 
 $customer = new Customer();
 $account  = new Account();
+$customer ->forename = 'John';
+$customer->surname = 'Doe';
 $customer->email  = 'ivy@eg.link';
 $account->balance = 1000.00;
 ?>
 <?php include 'includes/header.php'; ?>
+  <p>Name: <?= $customer ->forename?> <?=$customer ->surname?></p>
   <p>Email: <?= $customer->email ?></p>
   <p>Balance: $<?= $account->balance ?></p>
 <?php include 'includes/footer.php'; ?>
