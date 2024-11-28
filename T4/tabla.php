@@ -50,7 +50,7 @@ $products = [$product1, $product2, $product3];
                 <tr>
                     <td><?= $product->id ?></td>
                     <td><?= $product->name ?></td>
-                    <td><?= number_format($product->price, 2) ?></td>
+                    <td><?= $product->price ?></td>
                     <td><?= $product->stock ?></td>
                 </tr>
             <?php endforeach; ?>

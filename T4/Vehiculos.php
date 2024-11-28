@@ -110,9 +110,9 @@ $fleet->addVehicle($ford);
         <tbody>
             <?php foreach ($fleet->getVehicles() as $vehicle): ?>
                 <tr>
-                    <td><?= htmlspecialchars($vehicle->make) ?></td>
-                    <td><?= htmlspecialchars($vehicle->model) ?></td>
-                    <td><?= htmlspecialchars($vehicle->licensePlate) ?></td>
+                    <td><?= $vehicle->make ?></td>
+                    <td><?= $vehicle->model ?></td>
+                    <td><?= $vehicle->licensePlate ?></td>
                     <td><?= $vehicle->isAvailable() ? 'Sí' : 'No' ?></td>
                 </tr>
             <?php endforeach; ?>
