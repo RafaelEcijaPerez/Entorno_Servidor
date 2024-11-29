@@ -67,6 +67,15 @@ $books = $library->listBooks();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 800px;
+            text-align: center;
+            padding: 20px;
+            background-color: #f2f2f2;
+            color: #333;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
