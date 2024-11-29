@@ -10,12 +10,10 @@ class Library {
     }
 
     // Método para añadir un libro
-    public function addBook(string $title, string $author, int $year): void
+    public function addBook(string $libraryName): void
     {
         $this->books[] = [
-            'title' => $title,
-            'author' => $author,
-            'year' => $year,
+            'title' => $libraryName
         ];
     }
 
@@ -40,12 +38,12 @@ class Library {
 }
 // Crear una instancia de la biblioteca
 $library = new Library("City Library", [
-    ['title' => '1984', 'author' => 'George Orwell', 'year' => 1949],
-    ['title' => 'To Kill a Mockingbird', 'author' => 'Harper Lee', 'year' => 1960],
+    ['title' => '1984'],
+    ['title' => 'To Kill a Mockingbird']
 ]);
 
 // Añadir un nuevo libro
-$library->addBook('UNA NAVIDAD MUY FUN, FUN, FUN', 'Megan Maxwell', 2024);
+$library->addBook('UNA NAVIDAD MUY FUN, FUN, FUN');
 
 // Mostrar la lista de libros
 $books = $library->getBooks();
