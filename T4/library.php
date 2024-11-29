@@ -82,17 +82,14 @@ $books = $library->getBooks();
         <thead>
             <tr>
                 <th>Title</th>
-                <th>Author</th>
-                <th>Year</th>
+                
             </tr>
         </thead>
         <tbody>
             <?php if (!empty($books)): ?>
                 <?php foreach ($books as $book): ?>
                     <tr>
-                        <td><?= $book['title'] ?></td>
-                        <td><?= $book['author'] ?></td>
-                        <td><?= $book['year'] ?></td>
+                        <td><?= $book['title']?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
