@@ -81,6 +81,14 @@ $fleet->addVehicle($ford);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fleet Management</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+            background-color: #f8f9fa;
+        }
         table {
             border-collapse: collapse;
             width: 100%;
