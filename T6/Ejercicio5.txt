@@ -1,0 +1,13 @@
+Un ataque XSS (Cross-Site Scripting) puede tener consecuencias graves tanto para los usuarios como para el sitio web afectado.
+Para los usuarios:
+    1 robo de informacion personal.
+    2 Redirigir ha direciones Maliciosas.
+    3 Ejecutar Malware.
+    4 Phishing.
+    5 Toma de control del navegador.
+Para el sitio web:
+    1 Pérdida de Confianza y Reputación.
+    2 Compromiso de Cuentas de Usuario.
+    3 Abuso de Recursos del Servidor.
+    4 Ataques Internos.
+    5 Pérdida de SEO y Bloqueo de Navegadores.
