@@ -11,6 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'] ?? '';
     $age = $_POST['age'] ?? '';
     $website = $_POST['website'] ?? '';
+    // Verificar si el checkbox "terms" está marcado
     $terms = isset($_POST['terms']) ? true : false;
 
     // Validar los datos
@@ -68,16 +69,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!-- El formulario de registro -->
 <form action="formulario.php" method="POST">
     <label for="email">Correo electrónico:</label>
-    <input type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" required><br>
+    <input type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" ><br>
 
     <label for="age">Edad (entre 18 y 65 años):</label>
-    <input type="number" id="age" name="age" value="<?= htmlspecialchars($age) ?>" required min="18" max="65"><br>
+    <input type="number" id="age" name="age" value="<?= htmlspecialchars($age) ?>"  min="18" max="65"><br>
 
     <label for="website">URL de un sitio web:</label>
-    <input type="url" id="website" name="website" value="<?= htmlspecialchars($website) ?>" required><br>
+    <input type="url" id="website" name="website" value="<?= htmlspecialchars($website) ?>" ><br>
 
     <label for="terms">
-        <input type="checkbox" id="terms" name="terms" <?= $terms ? 'checked' : '' ?> required>
+        <input type="checkbox" id="terms" name="terms" <?= $terms ? 'checked' : '' ?> >
         Acepto los términos y condiciones
     </label><br>
 
