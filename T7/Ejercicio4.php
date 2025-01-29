@@ -129,7 +129,7 @@ function crearMiniatura($rutaOrigen, $rutaDestino, $maxAncho, $maxAlto, $extensi
 </head>
 <body>
     <p><?= htmlspecialchars($mensaje); ?></p>
-    <form method="POST" action="upload-file.php" enctype="multipart/form-data">
+    <form method="POST" action="Ejercicio4.php" enctype="multipart/form-data">
         <label for="image"><b>Subir imagen:</b></label>
         <input type="file" name="image" accept=".jpeg, .jpg, .png, .gif" id="image" required>
         <br>

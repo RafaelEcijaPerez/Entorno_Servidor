@@ -64,7 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body>
     <p><?= htmlspecialchars($mensaje); ?></p>
-    <form method="POST" action="upload-file.php" enctype="multipart/form-data">
+    <form method="POST" action="Ejercicio3.php" enctype="multipart/form-data">
         <label for="image"><b>Subir archivo:</b></label>
         <input type="file" name="image" accept="image/png, image/jpeg" id="image" required>
         <input type="submit" value="Subir">

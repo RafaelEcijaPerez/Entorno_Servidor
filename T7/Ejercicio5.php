@@ -99,7 +99,7 @@ function crearMiniaturaImagick($rutaOrigen, $rutaDestino, $maxAncho, $maxAlto) {
 </head>
 <body>
     <p><?= htmlspecialchars($mensaje); ?></p>
-    <form method="POST" action="upload-file.php" enctype="multipart/form-data">
+    <form method="POST" action="Ejercicio5.php" enctype="multipart/form-data">
         <label for="image"><b>Subir imagen:</b></label>
         <input type="file" name="image" accept=".jpeg, .jpg, .png, .gif" id="image" required>
         <br>
