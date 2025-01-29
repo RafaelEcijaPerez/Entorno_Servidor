@@ -6,6 +6,7 @@ $mensaje = "";
 
 // Validación
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    //aqui van los filtros 
     // Limpiar y sanitizar la información
     $Usuario["nombre"] = htmlspecialchars($_POST["nombre"] ?? "");
     $Usuario["correo"] = htmlspecialchars($_POST["email"] ?? "");
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else{
         //Debe tiener como minimo 9 digitos
-        if (preg_match("/^[0-9]{9}$/", $Usuario["telefono"])) {
+        if (!preg_match("/^[0-9]{9}$/", $Usuario["telefono"])) {
             $errores["telefono"] = "El teléfono debe tener al menos 9 dígitos";
         }
     }
