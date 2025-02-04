@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $archivo_temporal = $_FILES['image']['tmp_name'];
         
         // Definir la carpeta de destino dentro de htdocs
-        $directorio_destino = __DIR__ . "/uploads/";
+        $directorio_destino = __DIR__ . "/var/www/images";
 
         // Verificar si la carpeta de destino existe, si no, crearla
         if (!file_exists($directorio_destino)) {

@@ -10,7 +10,7 @@ $maxAlto = 200;
 
 // Comprobar si se ha enviado el formulario
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $archivoTemporal = $_FILES['image']['tmp_name'];
         $nombreArchivoOriginal = $_FILES['image']['name'];
         $tamanoArchivo = $_FILES['image']['size'];

@@ -1,139 +1,142 @@
 <?php
-// Configuración
-$mensaje = "";
-$tamanoMaximo = 5 * 1024 * 1024; // 5 MB
-$extensionesPermitidas = ['jpeg', 'jpg', 'png', 'gif'];
-$directorioSubidas = 'uploads/';
-$directorioMiniaturas = $directorioSubidas . 'thumbs/';
-$maxAncho = 200;
-$maxAlto = 200;
+$mensaje       = '';                                           // Inicializar mensaje
+$error         = '';                                           // Inicializar error
+$rutaSubidas   = 'uploads/';                                   // Carpeta de imágenes originales
+$rutaMiniaturas = 'uploads/thumbs/';                          // Carpeta de miniaturas
+$tamañoMax     = 5242880;                                      // Tamaño máximo de 5MB
+$formatosPermitidos = ['image/jpeg', 'image/png', 'image/gif']; // Tipos MIME permitidos
+$extensionesPermitidas = ['jpeg', 'jpg', 'png', 'gif'];        // Extensiones permitidas
 
-// Comprobar si se ha enviado el formulario
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
-        $archivoTemporal = $_FILES['image']['tmp_name'];
-        $nombreArchivoOriginal = $_FILES['image']['name'];
-        $tamanoArchivo = $_FILES['image']['size'];
+// Función para generar un nombre de archivo único
+function generarNombreArchivo($nombreArchivo, $directorio) {
+    $nombreBase  = pathinfo($nombreArchivo, PATHINFO_FILENAME);
+    $extension   = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+    $nombreBase  = preg_replace('/[^A-Za-z0-9]/', '-', $nombreBase); // Limpiar el nombre
+    $nuevoNombre = $nombreBase . '.' . $extension;
+    $contador    = 0;
 
-        // Limpieza del nombre del archivo
-        $nombreArchivo = preg_replace('/[^a-zA-Z0-9\._-]/', '_', $nombreArchivoOriginal);
-
-        // Obtener la extensión del archivo
-        $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
-
-        // Validar la extensión
-        if (!in_array($extension, $extensionesPermitidas)) {
-            $mensaje = 'Solo se permiten archivos con formato JPEG, PNG o GIF.';
-        }
-        // Validar el tamaño
-        elseif ($tamanoArchivo > $tamanoMaximo) {
-            $mensaje = 'El archivo excede el tamaño máximo permitido (5 MB).';
-        }
-        else {
-            // Asegurarse de que las carpetas de destino existan
-            if (!is_dir($directorioSubidas)) {
-                mkdir($directorioSubidas, 0755, true);
-            }
-            if (!is_dir($directorioMiniaturas)) {
-                mkdir($directorioMiniaturas, 0755, true);
-            }
-
-            // Ruta completa para el archivo original
-            $rutaArchivo = $directorioSubidas . $nombreArchivo;
-
-            // Evitar sobrescrituras
-            $contador = 1;
-            while (file_exists($rutaArchivo)) {
-                $rutaArchivo = $directorioSubidas . pathinfo($nombreArchivo, PATHINFO_FILENAME) . "_$contador." . $extension;
-                $contador++;
-            }
-
-            // Mover el archivo al directorio de subidas
-            if (move_uploaded_file($archivoTemporal, $rutaArchivo)) {
-                // Crear miniatura
-                $rutaMiniatura = $directorioMiniaturas . basename($rutaArchivo);
-
-                if (crearMiniatura($rutaArchivo, $rutaMiniatura, $maxAncho, $maxAlto, $extension)) {
-                    $mensaje = 'Imagen subida y miniatura creada exitosamente.';
-                } else {
-                    $mensaje = 'Imagen subida, pero hubo un error al crear la miniatura.';
-                }
-            } else {
-                $mensaje = 'Error al mover el archivo.';
-            }
-        }
-    } else {
-        $mensaje = 'Error al cargar el archivo.';
+    while (file_exists($directorio . $nuevoNombre)) { 
+        $contador++;
+        $nuevoNombre = $nombreBase . $contador . '.' . $extension;
     }
+    return $nuevoNombre;
 }
 
-// Función para crear miniaturas
-function crearMiniatura($rutaOrigen, $rutaDestino, $maxAncho, $maxAlto, $extension) {
-    // Cargar la imagen original según su formato
-    switch ($extension) {
-        case 'jpeg':
-        case 'jpg':
-            $imagenOriginal = imagecreatefromjpeg($rutaOrigen);
+// Función para redimensionar y crear una miniatura
+function crearMiniatura($rutaOriginal, $rutaDestino, $nuevoAncho, $nuevoAlto) {
+    list($anchoOriginal, $altoOriginal, $tipo) = getimagesize($rutaOriginal);
+    $ratioOriginal = $anchoOriginal / $altoOriginal;
+    $ratioNuevo = $nuevoAncho / $nuevoAlto;
+
+    if ($ratioNuevo < $ratioOriginal) {
+        $anchoSeleccionado = $altoOriginal * $ratioNuevo;
+        $altoSeleccionado = $altoOriginal;
+        $xOffset = ($anchoOriginal - $anchoSeleccionado) / 2;
+        $yOffset = 0;
+    } else {
+        $anchoSeleccionado = $anchoOriginal;
+        $altoSeleccionado = $anchoOriginal / $ratioNuevo;
+        $xOffset = 0;
+        $yOffset = ($altoOriginal - $altoSeleccionado) / 2;
+    }
+
+    // Crear imagen original según el formato
+    switch ($tipo) {
+        case IMAGETYPE_GIF:
+            $original = imagecreatefromgif($rutaOriginal);
             break;
-        case 'png':
-            $imagenOriginal = imagecreatefrompng($rutaOrigen);
+        case IMAGETYPE_JPEG:
+            $original = imagecreatefromjpeg($rutaOriginal);
             break;
-        case 'gif':
-            $imagenOriginal = imagecreatefromgif($rutaOrigen);
+        case IMAGETYPE_PNG:
+            $original = imagecreatefrompng($rutaOriginal);
             break;
         default:
             return false;
     }
 
-    // Obtener dimensiones originales
-    $anchoOriginal = imagesx($imagenOriginal);
-    $altoOriginal = imagesy($imagenOriginal);
-
-    // Calcular proporciones para la miniatura
-    $proporcion = min($maxAncho / $anchoOriginal, $maxAlto / $altoOriginal);
-    $nuevoAncho = round($anchoOriginal * $proporcion);
-    $nuevoAlto = round($altoOriginal * $proporcion);
-
-    // Crear lienzo para la miniatura
+    // Crear imagen en blanco con nuevo tamaño
     $miniatura = imagecreatetruecolor($nuevoAncho, $nuevoAlto);
+    imagecopyresampled($miniatura, $original, 0, 0, $xOffset, $yOffset, $nuevoAncho, $nuevoAlto, $anchoSeleccionado, $altoSeleccionado);
 
-    // Copiar y redimensionar la imagen original
-    imagecopyresampled($miniatura, $imagenOriginal, 0, 0, 0, 0, $nuevoAncho, $nuevoAlto, $anchoOriginal, $altoOriginal);
-
-    // Guardar la miniatura
-    switch ($extension) {
-        case 'jpeg':
-        case 'jpg':
-            imagejpeg($miniatura, $rutaDestino);
-            break;
-        case 'png':
-            imagepng($miniatura, $rutaDestino);
-            break;
-        case 'gif':
-            imagegif($miniatura, $rutaDestino);
-            break;
+    // Guardar miniatura en la ruta de destino
+    switch ($tipo) {
+        case IMAGETYPE_GIF:
+            return imagegif($miniatura, $rutaDestino);
+        case IMAGETYPE_JPEG:
+            return imagejpeg($miniatura, $rutaDestino);
+        case IMAGETYPE_PNG:
+            return imagepng($miniatura, $rutaDestino);
     }
+    return false;
+}
 
-    // Liberar memoria
-    imagedestroy($imagenOriginal);
-    imagedestroy($miniatura);
+// Procesar formulario
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if ($_FILES['imagen']['error'] === 0) {
+        $tipo = mime_content_type($_FILES['imagen']['tmp_name']);
+        $extension = strtolower(pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION));
+        $tamaño = $_FILES['imagen']['size'];
 
-    return true;
+        if (!in_array($tipo, $formatosPermitidos)) {
+            $error = 'Formato de archivo no permitido. Solo se permiten JPG, PNG y GIF.';
+        } elseif (!in_array($extension, $extensionesPermitidas)) {
+            $error = 'Extensión de archivo no permitida.';
+        } elseif ($tamaño > $tamañoMax) {
+            $error = 'El archivo es demasiado grande. Máximo 5MB.';
+        } else {
+            if (!is_dir($rutaSubidas)) {
+                mkdir($rutaSubidas, 0777, true);
+            }
+            if (!is_dir($rutaMiniaturas)) {
+                mkdir($rutaMiniaturas, 0777, true);
+            }
+
+            $nombreArchivo = generarNombreArchivo($_FILES['imagen']['name'], $rutaSubidas);
+            $rutaDestino = $rutaSubidas . $nombreArchivo;
+            $rutaMiniatura = $rutaMiniaturas . 'thumb_' . $nombreArchivo;
+
+            if (move_uploaded_file($_FILES['imagen']['tmp_name'], $rutaDestino)) {
+                if (crearMiniatura($rutaDestino, $rutaMiniatura, 200, 200)) {
+                    $mensaje = "<b>Imagen subida con éxito:</b><br>";
+                    $mensaje .= "<img src='$rutaMiniatura' alt='Miniatura'><br>";
+                    $mensaje .= "Nombre: $nombreArchivo<br>";
+                    $mensaje .= "Tamaño: " . round($tamaño / 1024, 2) . " KB";
+                } else {
+                    $error = 'No se pudo crear la miniatura.';
+                }
+            } else {
+                $error = 'Error al subir la imagen.';
+            }
+        }
+    } else {
+        $error = 'No se pudo subir el archivo.';
+    }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Subir Imagen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir y Redimensionar Imágenes</title>
 </head>
 <body>
-    <p><?= htmlspecialchars($mensaje); ?></p>
-    <form method="POST" action="Ejercicio4.php" enctype="multipart/form-data">
-        <label for="image"><b>Subir imagen:</b></label>
-        <input type="file" name="image" accept=".jpeg, .jpg, .png, .gif" id="image" required>
-        <br>
-        <input type="submit" value="Subir">
+    <h2>Subir Imagen de Producto</h2>
+    
+    <?php if ($mensaje): ?>
+        <p style="color: green;"><?= $mensaje ?></p>
+    <?php endif; ?>
+    
+    <?php if ($error): ?>
+        <p style="color: red;"><?= $error ?></p>
+    <?php endif; ?>
+
+    <form method="POST" action="" enctype="multipart/form-data">
+        <label for="imagen"><b>Seleccionar archivo:</b></label>
+        <input type="file" name="imagen" accept="image/*" id="imagen"><br><br>
+        <input type="submit" value="Subir Imagen">
     </form>
 </body>
 </html>

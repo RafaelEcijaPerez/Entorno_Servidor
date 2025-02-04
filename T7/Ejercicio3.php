@@ -10,7 +10,7 @@ $extensionesPermitidas = ['png', 'jpeg', 'jpg']; // Extensiones válidas
 
 // Comprobar si se ha cargado el archivo
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+    if (isset($_FILES['image']) && $_FILES['image']['error'] === 0) {
         $archivoTemporal = $_FILES['image']['tmp_name'];
         $nombreArchivoOriginal = $_FILES['image']['name'];
         $tamanoArchivo = $_FILES['image']['size'];
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $rutaArchivo = $rutaBase . $nombreArchivo;
             $contador = 1;
             while (file_exists($rutaArchivo)) {
-                $rutaArchivo = $rutaBase . pathinfo($nombreArchivo, PATHINFO_FILENAME) . "_$contador." . $extension;
+                $rutaArchivo = $rutaBase .$nombreArchivo . "_$contador." . $extension;
                 $contador++;
             }
 
