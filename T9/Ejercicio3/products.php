@@ -44,6 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["producto_id"])) {
         <?php endforeach; ?>
     </ul>
     <a href="carrito.php">Ver carrito</a>
+    <a href="checkout.php">Finalizar compra</a>
 </body>
 
 </html>
